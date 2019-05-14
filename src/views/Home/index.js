@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import api from "@api";
 import "./index.scss";
+import { getNews, getHomeList } from "../../api/home";
 
 export default function Home() {
     const [data, setData] = useState([]);
     const fetchData = async () => {
-        let res = await api.post("/123");
+        let res = await getNews();
+        getHomeList();
         setData(res.data.data);
     };
 

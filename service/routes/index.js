@@ -1,5 +1,6 @@
 const Router = require("koa-router");
 const router = new Router();
+const source = require("./source");
 
 router.post("/123", async ctx => {
     let res = await ctx.get(
@@ -7,5 +8,7 @@ router.post("/123", async ctx => {
     );
     ctx.body = res;
 });
+
+router.use(source.routes());
 
 module.exports = router;
