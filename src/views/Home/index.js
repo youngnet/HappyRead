@@ -5,9 +5,9 @@ import { getNews, getHomeList } from "../../api/home";
 export default function Home() {
     const [data, setData] = useState([]);
     const fetchData = async () => {
-        let res = await getNews();
-        getHomeList();
-        setData(res.data.data);
+        let res = await getHomeList();
+        // setData(res.data);
+        document.querySelector('.newsContainer').innerHTML = res.data;
     };
 
     useEffect(() => {
@@ -15,27 +15,5 @@ export default function Home() {
         return () => {};
     }, []);
 
-    return (
-        <div className='newsContainer'>
-            {data.map((news, index) => {
-                return (
-                    <a key={index} href={news.url}>
-                        <article className='newsItem'>
-                            <div>
-                                <img
-                                    className='img'
-                                    src={
-                                        news.imageUrls &&
-                                        news.imageUrls[0].split("?")[0]
-                                    }
-                                    alt=''
-                                />
-                            </div>
-                            <h5>{news.title}</h5>
-                        </article>
-                    </a>
-                );
-            })}
-        </div>
-    );
+    return <div className='newsContainer'></div>;
 }
