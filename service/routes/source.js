@@ -7,9 +7,11 @@ router.post("/source/getHome", async ctx => {
         responseType: "document",
         transformResponse: [
             function(data) {
-                return iconv.decode(Buffer.from(data), "gbk");
+                return iconv.decode(data, "gbk");
             }
         ],
+        responseEncoding: "gbk",
+        responseType: "arraybuffer"
     });
     ctx.body = res;
 });
