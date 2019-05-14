@@ -1,0 +1,14 @@
+.newsContainer {
+    .newsItem {
+        color: #565656;
+        display: flex;
+
+        .img {
+            max-width: 80px;
+        }
+    }
+}
+
+a {
+    text-decoration: none;
+}

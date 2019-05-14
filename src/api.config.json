@@ -1,0 +1,8 @@
+{
+    "development": {
+        "baseURL": "/api"
+    },
+    "production": {
+        "baseURL": ""
+    }
+}
