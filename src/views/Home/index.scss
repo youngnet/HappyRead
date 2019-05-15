@@ -1,18 +1,30 @@
 .newsContainer {
     .navList {
         display: flex;
-        padding: 20px;
+        padding: 20px 0;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: scroll;
+        a {
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+            padding: 0 10px;
+        }
     }
-    .typeName{
-        margin: 10px;
+    .typeName {
+        margin: 10px 0 4px 10px;
+        display: block;
     }
     .typeBookList {
+        line-height: 30px;
         display: flex;
         justify-content: space-around;
         .title {
             flex: 1;
+            padding-left: 10px;
         }
     }
+    margin-bottom: 15px;
 }
 
 a {

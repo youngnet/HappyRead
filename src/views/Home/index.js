@@ -13,7 +13,6 @@ export default function Home() {
     const fetchData = async () => {
         let res = await getHomeList();
         setData(res.data);
-        // document.querySelector('.newsContainer').innerHTML = res.data;
     };
 
     useEffect(() => {
@@ -40,10 +39,13 @@ export default function Home() {
             {data.recommendList.map((type, index) => {
                 return (
                     <List key={index}>
-                        <b className="typeName">{type.name}</b>
+                        <b className='typeName'>{type.name}</b>
                         {type.list.map((book, i) => {
                             return (
-                                <List.Item className='typeBookList'>
+                                <List.Item
+                                    key={i}
+                                    className='typeBookList'
+                                    href={book.link}>
                                     <span>{book.type}</span>
                                     <span className='title'>{book.title}</span>
                                     <span>{book.author}</span>
