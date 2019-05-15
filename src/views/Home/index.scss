@@ -1,10 +1,16 @@
 .newsContainer {
-    .newsItem {
-        color: #565656;
+    .navList {
         display: flex;
-
-        .img {
-            max-width: 80px;
+        padding: 20px;
+    }
+    .typeName{
+        margin: 10px;
+    }
+    .typeBookList {
+        display: flex;
+        justify-content: space-around;
+        .title {
+            flex: 1;
         }
     }
 }

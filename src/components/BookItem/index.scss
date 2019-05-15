@@ -1,0 +1,26 @@
+.bookItem {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff9f0;
+    border-radius: 5px;
+    .bookPic {
+        width: 80px;
+        flex-shrink: 0;
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            display: block;
+        }
+        padding-right: 10px;
+    }
+    .bookInfo {
+        font-size: 14px;
+        .author {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}

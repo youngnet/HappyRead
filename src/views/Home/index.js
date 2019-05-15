@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./index.scss";
-import { getNews, getHomeList } from "../../api/home";
+import { getHomeList } from "../../api/home";
+import BookItem from "@components/BookItem";
+import List from "@components/List";
 
 export default function Home() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({
+        navList: [],
+        hotList: [],
+        recommendList: []
+    });
     const fetchData = async () => {
         let res = await getHomeList();
-        // setData(res.data);
-        document.querySelector('.newsContainer').innerHTML = res.data;
+        setData(res.data);
+        // document.querySelector('.newsContainer').innerHTML = res.data;
     };
 
     useEffect(() => {
@@ -15,5 +21,38 @@ export default function Home() {
         return () => {};
     }, []);
 
-    return <div className='newsContainer'></div>;
+    return (
+        <div className='newsContainer'>
+            <div className='navList'>
+                {data.navList.map((item, index) => {
+                    return (
+                        <a key={index} href={item.link}>
+                            {item.name}
+                        </a>
+                    );
+                })}
+            </div>
+            <div className='hotList'>
+                {data.hotList.map((book, index) => {
+                    return <BookItem bookInfo={book} key={index} />;
+                })}
+            </div>
+            {data.recommendList.map((type, index) => {
+                return (
+                    <List key={index}>
+                        <b className="typeName">{type.name}</b>
+                        {type.list.map((book, i) => {
+                            return (
+                                <List.Item className='typeBookList'>
+                                    <span>{book.type}</span>
+                                    <span className='title'>{book.title}</span>
+                                    <span>{book.author}</span>
+                                </List.Item>
+                            );
+                        })}
+                    </List>
+                );
+            })}
+        </div>
+    );
 }
