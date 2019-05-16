@@ -37,5 +37,6 @@ module.exports = function(html) {
         });
         recommendList.push(recommend);
     });
+
     return { navList, hotList, recommendList };
 };

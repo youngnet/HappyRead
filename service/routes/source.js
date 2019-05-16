@@ -8,7 +8,6 @@ router.post("/source/getHome", async ctx => {
         transformResponse: [
             function(data) {
                 return iconv.decode(data, "gbk");
-                // return data;
             }
         ],
         responseEncoding: "gbk",
