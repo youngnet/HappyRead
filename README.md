@@ -4,6 +4,24 @@
     - config.json
         - apiConfig axios请求配置
         - mysqlConfig mysql配置
+        ```json
+        {
+            "apiConfig": {
+                "development": {
+                    "baseURL": "/test"
+                },
+                "production": {
+                    "baseURL": ""
+                }
+            },
+            "mysqlConfig": {
+                "host": "localhost",
+                "user": "demo",
+                "password": "demo",
+                "database": "demo"
+            }
+        }                                       
+        ```
     - setupProxy.js 
         - dev环境代理解决跨域问题
 - 命令

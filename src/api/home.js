@@ -1,7 +1,7 @@
 import api from './index'
 
 export function getNews() {
-    return api.post('/123');
+    return api.post('/source/getTags');
 }
 export function getHomeList() {
     return api.post('/source/getHome');
