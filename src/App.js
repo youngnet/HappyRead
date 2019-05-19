@@ -1,10 +1,10 @@
 import React from "react";
-import Home from "@views/Home";
+import Route from "./routes";
 
 function App() {
     return (
         <div className='App'>
-            <Home />
+            <Route />
         </div>
     );
 }

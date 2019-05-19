@@ -1,0 +1,27 @@
+.navList {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: scroll;
+    a {
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        padding: 15px 10px;
+        color: #565656;
+        position: relative;
+        &.active {
+            color: red;
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                height: 2px;
+                width: 20px;
+                background-color: red;
+                border-radius: 1px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    }
+}

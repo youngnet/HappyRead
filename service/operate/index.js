@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 
-module.exports = function(html) {
+function handleHome(html) {
     const $ = cheerio.load(html);
     const navList = [];
     const hotList = [];
@@ -39,4 +39,39 @@ module.exports = function(html) {
     });
 
     return { navList, hotList, recommendList };
-};
+}
+
+function handleBookDetail(html) {
+    const $ = cheerio.load(html);
+    const bookInfo = {};
+    const newChapterList = [];
+    const chapterList = [];
+    bookInfo.name = $(".book_info .book_box .name").text();
+    // 获取最新章节和当前浏览章节
+    $(".book_last").each((index, ele) => {
+        if (index === 0) {
+            // 最新章节
+            $(ele)
+                .find("dd a")
+                .each((i, chapter) => {
+                    const chapterInfo = {};
+                    chapterInfo.link = $(chapter).attr("href");
+                    chapterInfo.name = $(chapter).text();
+                    newChapterList.push(chapterInfo);
+                });
+        } else {
+            // 当前浏览章节
+            $(ele)
+                .find("dd a")
+                .each((i, chapter) => {
+                    const chapterInfo = {};
+                    chapterInfo.link = $(chapter).attr("href");
+                    chapterInfo.name = $(chapter).text();
+                    chapterList.push(chapterInfo);
+                });
+        }
+    });
+    return { bookInfo, chapterList, newChapterList };
+}
+
+module.exports = { handleHome, handleBookDetail };

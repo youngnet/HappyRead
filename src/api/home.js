@@ -1,8 +1,12 @@
-import api from './index'
+import api from "./index";
 
-export function getNews() {
-    return api.post('/source/getTags');
+export function getHomeList(link = "/") {
+    return api.post("/source/getHome", { link });
 }
-export function getHomeList() {
-    return api.post('/source/getHome');
+export function getNavList() {
+    return api.post("/source/getNavList");
+}
+
+export function getTypeDetail(link) {
+    return api.post("/source/getTypeDetail", { link });
 }

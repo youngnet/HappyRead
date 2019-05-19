@@ -1,0 +1,33 @@
+.bookDetailContainer {
+    .bookInfo {
+        display: flex;
+        margin: 10px;
+        img {
+            width: 100px;
+            padding-right: 10px;
+        }
+    }
+    .listTitle {
+        margin: 15px 10px 8px;
+        background-color: #fd4c4e;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .chapterList {
+        font-size: 14px;
+        color: #565656;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        .chapterListItem {
+            line-height: 30px;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+}

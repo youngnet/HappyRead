@@ -25,6 +25,6 @@
     - setupProxy.js 
         - dev环境代理解决跨域问题
 - 命令
-    - npm run start dev环境前端
-    - npm run build 生成production文件
-    - npm run server 启动后端进程
+    - npm run start 
+    - npm run build 
+    - npm run server 
