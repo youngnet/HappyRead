@@ -3,16 +3,13 @@ import {
     BrowserRouter as Router,
     Route,
     Switch,
-    Link,
     Redirect
 } from "react-router-dom";
 import { getNavList } from "../api/home";
-import Home from "../views/Home";
-import BookDetail from "../views/BookDetail";
-import TypePage from "../views/TypePage";
+import routerList from "./router";
 import NavList from "../components/NavList";
 import ScrollToTop from "../components/ScrollToTop";
-
+import { getQuery } from "../utils/utils";
 
 export default function MyRoute() {
     const [navList, setNavList] = useState([]);
@@ -31,10 +28,32 @@ export default function MyRoute() {
             <ScrollToTop>
                 <NavList navList={navList} />
                 <Switch>
-                    <Route exact path='/home' component={Home} />
+                    {routerList.map((RouterInfo, index) => {
+                        return (
+                            <Route
+                                exact
+                                key={index}
+                                path={RouterInfo.path}
+                                component={props => (
+                                    <RouterInfo.Component
+                                        {...props}
+                                        query={getQuery(props.location.search)}
+                                    />
+                                )}
+                            />
+                        );
+                    })}
+                    {/* <Route
+                        exact
+                        path='/home'
+                        component={props => (
+                            <Home
+                                {...props}
+                                query={getQuery(props.location.search)}
+                            />
+                        )}
+                    /> */}
                     {/* <Route exact path='/home/:link' component={Home} /> */}
-                    <Route path='/detail' component={BookDetail} />
-                    <Route path='/type' component={TypePage} />
                     <Redirect to='/home' />
                 </Switch>
             </ScrollToTop>

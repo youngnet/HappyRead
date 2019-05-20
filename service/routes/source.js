@@ -1,8 +1,12 @@
 const Router = require("koa-router");
 const router = new Router();
 const iconv = require("iconv-lite");
-const { handleHome, handleBookDetail, handleTypePage } = require("../operate/dingdian");
-
+const {
+    handleHome,
+    handleBookDetail,
+    handleTypePage,
+    handleReadPage
+} = require("../operate/dingdian");
 
 router.post("/getNavList", async ctx => {
     let [data] = await global.pool.query("SELECT * FROM nav");
@@ -11,16 +15,7 @@ router.post("/getNavList", async ctx => {
 
 router.post("/getHome", async ctx => {
     let { link } = ctx.request.body;
-    let res = await ctx.get(`https://m.23us.so${link}`, {
-        transformResponse: [
-            function(data) {
-                // return iconv.decode(data, "gbk");
-                return data;
-            }
-        ],
-        // responseEncoding: "gbk",
-        responseType: "arraybuffer"
-    });
+    let res = await getPage(ctx, link);
 
     let data = handleHome(res);
 
@@ -29,16 +24,7 @@ router.post("/getHome", async ctx => {
 
 router.post("/getTypeDetail", async ctx => {
     let { link } = ctx.request.body;
-    let res = await ctx.get(`https://m.23us.so${link}`, {
-        transformResponse: [
-            function(data) {
-                // return iconv.decode(data, "gbk");
-                return data;
-            }
-        ],
-        // responseEncoding: "gbk",
-        responseType: "arraybuffer"
-    });
+    let res = await getPage(ctx, link);
 
     let data = handleTypePage(res);
 
@@ -47,6 +33,21 @@ router.post("/getTypeDetail", async ctx => {
 
 router.post("/getBookDetail", async ctx => {
     let { link } = ctx.request.body;
+    let res = await getPage(ctx, link);
+    // console.log(res.toString())
+    let data = handleBookDetail(res);
+
+    ctx.body = data;
+});
+
+router.post("/getReadContent", async ctx => {
+    let { link } = ctx.request.body;
+    let res = await getPage(ctx, link);
+    let data = handleReadPage(res);
+    ctx.body = data;
+});
+
+async function getPage(ctx, link) {
     let res = await ctx.get(`https://m.23us.so${link}`, {
         transformResponse: [
             function(data) {
@@ -55,10 +56,7 @@ router.post("/getBookDetail", async ctx => {
         ],
         responseType: "arraybuffer"
     });
-    // console.log(res.toString())
-    let data = handleBookDetail(res);
-	console.log("TCL: data", data)
-    ctx.body = data;
-});
+    return res;
+}
 
 module.exports = router;

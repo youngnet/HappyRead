@@ -6,6 +6,11 @@
             width: 100px;
             padding-right: 10px;
         }
+        .rightInfo{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     }
     .listTitle {
         margin: 15px 10px 8px;

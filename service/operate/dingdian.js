@@ -96,12 +96,21 @@ function handleTypePage(html) {
     const $ = cheerio.load(html);
     const hotList = handleHot($);
     const allBookList = [];
-    const reg = /_(\d+)\.html$/;
+    const reg = /[\/_](\d+)\.html$/;
     const totalPage = reg.exec(
         $(".pages .a-btn")
             .last()
             .attr("href")
     )[1];
+    $(".wrap .block .lis li").each((i, ele) => {
+        const bookInfo = {};
+        const $ele = $(ele);
+        bookInfo.type = $ele.find(".s1").text();
+        bookInfo.author = $ele.find(".s3").text();
+        bookInfo.name = $ele.find(".s2 a").text();
+        bookInfo.link = $ele.find(".s2 a").attr("href");
+        allBookList.push(bookInfo);
+    });
     return { hotList, allBookList, totalPage };
 }
 
@@ -120,4 +129,21 @@ function handleHot($) {
     return hotList;
 }
 
-module.exports = { handleHome, handleBookDetail, handleTypePage };
+// 阅读页解析
+function handleReadPage(html) {
+    const $ = cheerio.load(html);
+    const chapterDetail = {};
+    chapterDetail.name = $("#_52mb_h1").text();
+    chapterDetail.content = $("#nr1").html();
+    chapterDetail.prevChapter = $("#pb_prev").attr("href");
+    chapterDetail.nextChapter = $("#pb_next").attr("href");
+    chapterDetail.directory = $("#pb_mulu").attr("href");
+    return chapterDetail;
+}
+
+module.exports = {
+    handleHome,
+    handleBookDetail,
+    handleTypePage,
+    handleReadPage
+};

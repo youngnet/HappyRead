@@ -10,9 +10,10 @@ function List({ style = {}, children, className }) {
     );
 }
 
-function ListItem({ style = {}, children, className }) {
+function ListItem({ style = {}, children, className = '', onClick = () => { } }) {
     return (
         <div
+            onClick={onClick}
             className={classNames("componentListItem", className)}
             style={style}>
             {children}

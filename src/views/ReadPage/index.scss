@@ -1,0 +1,15 @@
+.readPageContainer {
+    .title {
+        text-align: center;
+        font-size: 16px;
+    }
+    .content {
+        padding: 10px;
+    }
+    .config-btn{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 50px;
+    }
+}

@@ -3,30 +3,23 @@ import "./index.scss";
 import { getHomeList } from "../../api/home";
 import BookItem from "@components/BookItem";
 import List from "@components/List";
-import querystring from "querystring";
 
 export default function Home(props) {
-    const params = querystring.parse(props.location.search.slice(1));
     const [data, setData] = useState({
         navList: [],
         hotList: [],
         recommendList: []
     });
-    const [l, setL] = useState("");
-    if (l != params.l) {
-		console.log("TCL: Home -> params", params)
-        console.log(params.l)
-        setL(params.l);
-    }
+
     const fetchData = async () => {
-        let res = await getHomeList(params.l);
+        let res = await getHomeList();
         setData(res.data);
     };
 
     useEffect(() => {
         fetchData();
         return () => {};
-    }, [l]);
+    }, []);
 
     return (
         <div className='newsContainer'>
@@ -42,9 +35,13 @@ export default function Home(props) {
                         {type.list.map((book, i) => {
                             return (
                                 <List.Item
+                                    onClick={() => {
+                                        props.history.push(
+                                            `/detail?l=${book.link}`
+                                        );
+                                    }}
                                     key={i}
-                                    className='typeBookList'
-                                    href={book.link}>
+                                    className='typeBookList'>
                                     <span>{book.type}</span>
                                     <span className='title'>{book.name}</span>
                                     <span>{book.author}</span>
