@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { getTypeDetail } from '../../api/home'
-import querystring from 'querystring'
 import BookItem from "@components/BookItem";
 import List from '../../components/List'
 import './index.scss'
 
-export default function TypePage({history, location, query}) {
+export default function TypePage({ history, location, query }) {
     const [page, setPage] = useState(1);
     const [data, setData] = useState({ hotList: [], allBookList: [] });
-    const [l, setL] = useState("");
-    if (l != query.l) {
-        setL(query.l)
-    }
-    async function fetchData() {
-        let res = await getTypeDetail(query.l)
-        console.log("TCL: fetchData -> res", res)
-        setData(res.data);
-    }
+
     useEffect(() => {
+        async function fetchData() {
+            let res = await getTypeDetail(query.l)
+            setData(res.data);
+        }
         fetchData();
-    }, [l, page])
+        return () => {
+
+        }
+
+    }, [query.l, page])
 
     const { allBookList, hotList } = data;
     return (

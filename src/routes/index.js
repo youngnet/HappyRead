@@ -1,32 +1,25 @@
 import React, { useState, useEffect } from "react";
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Route,
     Switch,
     Redirect
 } from "react-router-dom";
-import { getNavList } from "../api/home";
 import routerList from "./router";
 import NavList from "../components/NavList";
 import ScrollToTop from "../components/ScrollToTop";
 import { getQuery } from "../utils/utils";
 
 export default function MyRoute() {
-    const [navList, setNavList] = useState([]);
-
-    const fetchNav = async () => {
-        let res = await getNavList();
-        setNavList(res.data);
-    };
-
+    const [data, setData] = useState(undefined);
     useEffect(() => {
-        fetchNav();
-        return () => {};
-    }, []);
+        console.log(data);
+        setData(1);
+    }, [data]);
     return (
         <Router>
             <ScrollToTop>
-                <NavList navList={navList} />
+                <NavList />
                 <Switch>
                     {routerList.map((RouterInfo, index) => {
                         return (

@@ -14,6 +14,7 @@ router.post("/getNavList", async ctx => {
 });
 
 router.post("/getHome", async ctx => {
+    ctx.session.visit = ctx.session.visit ? ctx.session.visit + 1 : 1;
     let { link } = ctx.request.body;
     let res = await getPage(ctx, link);
 
@@ -59,4 +60,4 @@ async function getPage(ctx, link) {
     return res;
 }
 
-module.exports = router;
+module.exports = router.routes();

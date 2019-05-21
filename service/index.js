@@ -1,13 +1,16 @@
 const koa = require("koa");
+const path = require("path");
 const bodyParser = require("koa-bodyparser");
 const app = new koa();
 const api = require("./api");
 const router = require("./routes");
 const pool = require("./db");
 const schedule = require("node-schedule");
+const static = require("koa-static");
 const CSRF = require("koa-csrf");
-// const session = require("koa-session");
-// app.keys = ["some secret hurr"];
+const session = require("koa-session");
+app.keys = ["happyread", "hahahah", "gg"];
+
 // const CONFIG = {
 //     key: "koa:sess" /** (string) cookie key (default is koa:sess) */,
 //     /** (number || 'session') maxAge in ms (default is 1 days) */
@@ -22,7 +25,8 @@ const CSRF = require("koa-csrf");
 //     renew: false /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 // };
 
-// app.use(session(CONFIG, app));
+app.use(session({}, app));
+app.use(static(path.join(__dirname, "../build")));
 
 global.pool = pool.promise();
 
@@ -31,8 +35,13 @@ let sqlSchedule = schedule.scheduleJob("0 0 0 * * *", date => {
 });
 // app.use(new CSRF());
 app.use(bodyParser());
+app.use(async (ctx, next) => {
+    const startTime = new Date().getTime();
+    await next();
+    console.log(new Date().getTime() - startTime, "-----处理时间");
+});
 app.use(async function(ctx, next) {
-    console.log(ctx.accepts("json", "html", "xml", "text"), "----accepts");
+    // console.log(ctx.accepts("json", "html", "xml", "text"), "----accepts");
     try {
         await next();
     } catch (err) {
@@ -46,21 +55,20 @@ app.use(async function(ctx, next) {
         // want to delegate to the regular app
         // level error handling as well so that
         // centralized still functions correctly.
-        // ctx.app.emit("error", err, ctx);
-        console.log(err,'----err')
+        ctx.app.emit("error", err, ctx);
     }
 });
 app.use(async (ctx, next) => {
     api(ctx);
     await next();
 });
-app.use(router.routes());
+app.use(router);
 
 app.listen(7887, () => {
     console.log("koa ok!");
 });
 
 app.on("error", function(err) {
-    console.log("sent error %s to the cloud", err.message);
     console.log(err);
+    console.log("sent error %s to the cloud", err.message);
 });

@@ -6,14 +6,14 @@ import './index.scss';
 export default function BookDetail(props) {
     const [bookDetail, setBookDetail] = useState({ bookInfo: {}, newChapterList: [], chapterList: [] });
     const params = props.query;
-    async function fetchInfo() {
-        let res = await getBookDetail(params.l)
-        setBookDetail(res)
-    }
 
     useEffect(() => {
+        async function fetchInfo() {
+            let res = await getBookDetail(params.l)
+            setBookDetail(res)
+        }
         fetchInfo()
-    }, [])
+    }, [params.l])
     const { bookInfo, newChapterList, chapterList } = bookDetail;
     return (
         <div className="bookDetailContainer">
