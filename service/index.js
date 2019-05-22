@@ -1,12 +1,14 @@
 const koa = require("koa");
-const path = require("path");
+// const path = require("path");
+const view = require("./views");
 const bodyParser = require("koa-bodyparser");
 const app = new koa();
 const api = require("./api");
 const router = require("./routes");
 const pool = require("./db");
 const schedule = require("node-schedule");
-const static = require("koa-static");
+// const static = require("koa-static");
+// const mount = require("koa-mount");
 const CSRF = require("koa-csrf");
 const session = require("koa-session");
 app.keys = ["happyread", "hahahah", "gg"];
@@ -26,35 +28,35 @@ app.keys = ["happyread", "hahahah", "gg"];
 // };
 
 app.use(session({}, app));
-app.use(static(path.join(__dirname, "../build")));
 
 global.pool = pool.promise();
 
-let sqlSchedule = schedule.scheduleJob("0 0 0 * * *", date => {
-    console.log(date.toLocaleString());
-});
+// let sqlSchedule = schedule.scheduleJob("0 0 0 * * *", date => {
+//     console.log(date.toLocaleString());
+// });
 // app.use(new CSRF());
 app.use(bodyParser());
 app.use(async (ctx, next) => {
     const startTime = new Date().getTime();
     await next();
-    console.log(new Date().getTime() - startTime, "-----处理时间");
+    console.log(
+        new Date().getTime() - startTime,
+        "-----处理时间------",
+        ctx.ip
+    );
 });
 app.use(async function(ctx, next) {
-    // console.log(ctx.accepts("json", "html", "xml", "text"), "----accepts");
     try {
         await next();
     } catch (err) {
-        // some errors will have .status
-        // however this is not a guarantee
-        ctx.status = err.status || 500;
+        const available_code_map = new Map(
+            new Set([400, 401, 403, 404, 500]).entries()
+        );
+        const errCode =
+            available_code_map.get(err ? err.statusCode : 500) || 500;
+        ctx.status = errCode;
         ctx.type = "json";
         ctx.body = { cd: 1, msg: "网络出错，请稍后重试", data: null };
-
-        // since we handled this manually we'll
-        // want to delegate to the regular app
-        // level error handling as well so that
-        // centralized still functions correctly.
         ctx.app.emit("error", err, ctx);
     }
 });
@@ -63,7 +65,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 app.use(router);
-
+view(app);
 app.listen(7887, () => {
     console.log("koa ok!");
 });

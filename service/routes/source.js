@@ -5,7 +5,9 @@ const {
     handleHome,
     handleBookDetail,
     handleTypePage,
-    handleReadPage
+    handleReadPage,
+    handleBookList,
+    handleChapterList
 } = require("../operate/dingdian");
 
 router.post("/getNavList", async ctx => {
@@ -32,13 +34,28 @@ router.post("/getTypeDetail", async ctx => {
     ctx.body = { cd: 0, msg: null, data };
 });
 
+router.post("/getTypeBookList", async ctx => {
+    let { link } = ctx.request.body;
+    let res = await getPage(ctx, link);
+    let data = handleBookList(res);
+
+    ctx.body = { cd: 0, msg: null, data };
+});
+
 router.post("/getBookDetail", async ctx => {
     let { link } = ctx.request.body;
     let res = await getPage(ctx, link);
-    // console.log(res.toString())
     let data = handleBookDetail(res);
 
-    ctx.body = data;
+    ctx.body = { cd: 0, msg: null, data };
+});
+
+router.post("/getChapterList", async ctx => {
+    let { link } = ctx.request.body;
+    let res = await getPage(ctx, link);
+    let data = handleChapterList(res);
+
+    ctx.body = { cd: 0, msg: null, data };
 });
 
 router.post("/getReadContent", async ctx => {

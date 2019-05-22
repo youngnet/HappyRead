@@ -10,3 +10,6 @@ export function getNavList() {
 export function getTypeDetail(link) {
     return api.post("/source/getTypeDetail", { link });
 }
+export function getTypeBookList(link) {
+    return api.post('/source/getTypeBookList', {link})
+}

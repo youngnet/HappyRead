@@ -57,8 +57,11 @@ function handleBookDetail(html) {
         let text = $(ele).text();
         text && bookInfo.infoList.push(text);
     });
-    $(".chapter").each((index, ele) => {
-        if (index === 0) {
+
+    bookInfo.totalPage = $("span.middle option").length;
+    $(".chapter")
+        .eq(0)
+        .each((index, ele) => {
             // 最新章节
             $(ele)
                 .find("a")
@@ -68,7 +71,10 @@ function handleBookDetail(html) {
                     chapterInfo.name = $(chapter).text();
                     newChapterList.push(chapterInfo);
                 });
-        } else {
+        });
+    $(".chapter")
+        .eq(1)
+        .each((index, ele) => {
             // 当前浏览章节
             $(ele)
                 .find("a")
@@ -78,30 +84,56 @@ function handleBookDetail(html) {
                     chapterInfo.name = $(chapter).text();
                     chapterList.push(chapterInfo);
                 });
-        }
-    });
+        });
     const reg = /.+\/(\d+)\.html/;
-    bookInfo.totalPage = reg.exec(
-        $("select option")
-            .last()
-            .val()
-    )[1];
+    // bookInfo.totalPage = reg.exec(
+    //     $("select option")
+    //         .last()
+    //         .val()
+    // )[1];
 
     // bookInfo.totalPage = lastPageLink[lastPageLink.length - 1].split(".")[0];
     return { bookInfo, chapterList, newChapterList };
+}
+
+function handleChapterList(html) {
+    const $ = cheerio.load(html);
+    const chapterList = [];
+
+    $(".chapter")
+        .eq(1)
+        .each((index, ele) => {
+            // 当前浏览章节
+            $(ele)
+                .find("a")
+                .each((i, chapter) => {
+                    const chapterInfo = {};
+                    chapterInfo.link = $(chapter).attr("href");
+                    chapterInfo.name = $(chapter).text();
+                    chapterList.push(chapterInfo);
+                });
+        });
+
+    return chapterList;
 }
 
 // 分类详情页面
 function handleTypePage(html) {
     const $ = cheerio.load(html);
     const hotList = handleHot($);
-    const allBookList = [];
     const reg = /[\/_](\d+)\.html$/;
     const totalPage = reg.exec(
         $(".pages .a-btn")
             .last()
             .attr("href")
     )[1];
+
+    return { hotList, totalPage };
+}
+// 分类分页书籍获取
+function handleBookList(html) {
+    const $ = cheerio.load(html);
+    const allBookList = [];
     $(".wrap .block .lis li").each((i, ele) => {
         const bookInfo = {};
         const $ele = $(ele);
@@ -111,7 +143,7 @@ function handleTypePage(html) {
         bookInfo.link = $ele.find(".s2 a").attr("href");
         allBookList.push(bookInfo);
     });
-    return { hotList, allBookList, totalPage };
+    return allBookList;
 }
 
 function handleHot($) {
@@ -145,5 +177,7 @@ module.exports = {
     handleHome,
     handleBookDetail,
     handleTypePage,
-    handleReadPage
+    handleReadPage,
+    handleBookList,
+    handleChapterList
 };

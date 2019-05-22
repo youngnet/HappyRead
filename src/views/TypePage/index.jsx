@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { getTypeDetail } from '../../api/home'
+import React, { useState, useEffect, useCallback } from 'react'
+import { getTypeDetail, getTypeBookList } from '../../api/home'
 import BookItem from "@components/BookItem";
 import List from '../../components/List'
 import './index.scss'
+import useWindowScroll from '../../utils/useWindowScroll'
+
+let loading = false;
 
 export default function TypePage({ history, location, query }) {
-    const [page, setPage] = useState(1);
-    const [data, setData] = useState({ hotList: [], allBookList: [] });
+    const link = query.l.split('_')[0];
+    const [page, setPage] = useState(0);
+    const [data, setData] = useState({ hotList: [], totalPage: 1 });
+    const [bookList, setBookList] = useState([])
+    const reachBottom = useWindowScroll()
 
     useEffect(() => {
         async function fetchData() {
@@ -17,10 +23,33 @@ export default function TypePage({ history, location, query }) {
         return () => {
 
         }
+    }, [query.l])
 
-    }, [query.l, page])
+    useEffect(() => {
+        if (!loading && reachBottom && page < data.totalPage) {
+            setPage((page) => {
+                return page + 1
+            })
+        }
+        return () => {
 
-    const { allBookList, hotList } = data;
+        }
+    },
+        [reachBottom])
+
+    useEffect(() => {
+        loading = true;
+        async function getBookList() {
+            let res = await getTypeBookList(`${link}_${page + 1}.html`);
+            if (res.cd === 0) {
+                setBookList([...bookList, ...res.data]);
+            }
+            loading = false;
+        }
+        getBookList()
+    }, [page, link])
+
+    const { hotList } = data;
     return (
         <div>
             <div className='hotList'>
@@ -29,7 +58,7 @@ export default function TypePage({ history, location, query }) {
                 })}
             </div>
             <List>
-                {allBookList.map((book, index) => {
+                {bookList.map((book, index) => {
                     return (
                         <List.Item
                             onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
     HashRouter as Router,
     Route,
@@ -11,11 +11,11 @@ import ScrollToTop from "../components/ScrollToTop";
 import { getQuery } from "../utils/utils";
 
 export default function MyRoute() {
-    const [data, setData] = useState(undefined);
-    useEffect(() => {
-        console.log(data);
-        setData(1);
-    }, [data]);
+    // const [data, setData] = useState(undefined);
+    // useEffect(() => {
+    //     console.log(data);
+    //     setData(1);
+    // }, [data]);
     return (
         <Router>
             <ScrollToTop>
