@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const useWindowScroll = (lowerThreshold = 50) => {
+const useWindowScroll = (lowerThreshold = 100) => {
     const frame = useRef(0);
     const [reachBottom, setState] = useState(false);
 
@@ -12,12 +12,19 @@ const useWindowScroll = (lowerThreshold = 50) => {
                 //     x: window.scrollX,
                 //     y: window.scrollY
                 // });
-                const scrollTop = document.documentElement.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight;
-                const clientHeight = document.documentElement.clientHeight;
-                if (scrollTop + clientHeight > scrollHeight - 50) {
+                const scrollTop =
+                    document.documentElement.scrollTop ||
+                    document.body.scrollTop;
+                const scrollHeight =
+                    document.documentElement.scrollHeight ||
+                    document.body.scrollHeight;
+                const clientHeight =
+                    document.documentElement.clientHeight ||
+                    document.body.clientHeight;
+                    console.log(scrollTop,scrollHeight)
+                if (scrollTop + clientHeight > scrollHeight - lowerThreshold) {
                     setState(true);
-                }else{
+                } else {
                     setState(false);
                 }
             });

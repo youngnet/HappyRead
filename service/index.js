@@ -1,5 +1,4 @@
 const koa = require("koa");
-// const path = require("path");
 const view = require("./views");
 const bodyParser = require("koa-bodyparser");
 const app = new koa();
@@ -7,36 +6,27 @@ const api = require("./api");
 const router = require("./routes");
 const pool = require("./db");
 const schedule = require("node-schedule");
-// const static = require("koa-static");
-// const mount = require("koa-mount");
 const CSRF = require("koa-csrf");
 const session = require("koa-session");
 app.keys = ["happyread", "hahahah", "gg"];
 
-// const CONFIG = {
-//     key: "koa:sess" /** (string) cookie key (default is koa:sess) */,
-//     /** (number || 'session') maxAge in ms (default is 1 days) */
-//     /** 'session' will result in a cookie that expires when session/browser is closed */
-//     /** Warning: If a session cookie is stolen, this cookie will never expire */
-//     maxAge: 86400000,
-//     autoCommit: true /** (boolean) automatically commit headers (default true) */,
-//     overwrite: true /** (boolean) can overwrite or not (default true) */,
-//     httpOnly: false /** (boolean) httpOnly or not (default true) */,
-//     signed: false /** (boolean) signed or not (default true) */,
-//     rolling: false /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */,
-//     renew: false /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
-// };
+if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = "production";
+}
 
-app.use(session({}, app));
+app.use(session({ key: "session" }, app));
 
-global.pool = pool.promise();
+const promisePool = pool.promise();
 
 // let sqlSchedule = schedule.scheduleJob("0 0 0 * * *", date => {
 //     console.log(date.toLocaleString());
 // });
 // app.use(new CSRF());
-app.use(bodyParser());
+
 app.use(async (ctx, next) => {
+    console.log(ctx.session);
+    ctx.pool = promisePool;
+    ctx.md5Key = "yeah";
     const startTime = new Date().getTime();
     await next();
     console.log(
@@ -45,6 +35,7 @@ app.use(async (ctx, next) => {
         ctx.ip
     );
 });
+
 app.use(async function(ctx, next) {
     try {
         await next();
@@ -60,6 +51,8 @@ app.use(async function(ctx, next) {
         ctx.app.emit("error", err, ctx);
     }
 });
+
+app.use(bodyParser());
 app.use(async (ctx, next) => {
     api(ctx);
     await next();

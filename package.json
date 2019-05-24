@@ -30,6 +30,7 @@
         "eslint-plugin-react-hooks": "^1.5.0",
         "file-loader": "3.0.1",
         "fs-extra": "7.0.1",
+        "history": "^4.9.0",
         "html-webpack-plugin": "4.0.0-beta.5",
         "http-proxy-middleware": "^0.19.1",
         "iconv-lite": "^0.4.24",
@@ -45,6 +46,7 @@
         "koa-router": "^7.4.0",
         "koa-session": "^5.12.0",
         "koa-static": "^5.0.0",
+        "md5": "^2.2.1",
         "mini-css-extract-plugin": "0.5.0",
         "mysql2": "^1.6.5",
         "node-sass": "^4.12.0",
@@ -79,7 +81,7 @@
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
         "test": "node scripts/test.js",
-        "server": "nodemon service/index.js"
+        "server": "nodemon scripts/server.js"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -147,7 +149,8 @@
         ]
     },
     "devDependencies": {
-        "nodemon": "^1.19.0"
+        "nodemon": "^1.19.0",
+        "vconsole-webpack-plugin": "^1.4.2"
     },
     "peerDependencies": {
         "keyboardjs": "^2.5.1",

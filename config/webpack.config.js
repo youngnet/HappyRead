@@ -25,6 +25,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const vConsolePlugin = require('vconsole-webpack-plugin');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -524,6 +525,7 @@ module.exports = function(webpackEnv) {
                       : undefined
               )
           ),
+          new vConsolePlugin({enable: !isEnvProduction}),
           // Inlines the webpack runtime script. This script is too small to warrant
           // a network request.
           isEnvProduction &&

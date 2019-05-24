@@ -11,7 +11,7 @@ const {
 } = require("../operate/dingdian");
 
 router.post("/getNavList", async ctx => {
-    let [data] = await global.pool.query("SELECT * FROM nav");
+    let [data] = await ctx.pool.query("SELECT * FROM nav");
     ctx.body = { cd: 0, msg: null, data };
 });
 

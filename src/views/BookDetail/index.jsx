@@ -50,7 +50,9 @@ export default function BookDetail(props) {
     return (
         <div className="bookDetailContainer">
             <div className="bookInfo">
-                <img src={bookInfo.picUrl} alt={bookInfo.name} />
+                <div className="imgWrapper">
+                    <img src={bookInfo.picUrl} alt={bookInfo.name} />
+                </div>
                 <div className="rightInfo">
                     <div>{bookInfo.name}</div>
                     {bookInfo.infoList && bookInfo.infoList.map((item, index) => (<div key={index}>{item}</div>))}
