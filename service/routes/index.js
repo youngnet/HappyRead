@@ -12,9 +12,9 @@ router.use('/auth', auth);
 //     ctx.body = "hhhh";
 // })
 // 路由？参数
-router.get("/b", async (ctx, next) => {
-    console.log(ctx.query)
-    ctx.body = "hhhh";
-})
+// router.get("/b", async (ctx, next) => {
+//     console.log(ctx.query)
+//     ctx.body = "hhhh";
+// })
 
 module.exports = router.routes();

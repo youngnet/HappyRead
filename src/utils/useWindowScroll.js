@@ -21,7 +21,6 @@ const useWindowScroll = (lowerThreshold = 100) => {
                 const clientHeight =
                     document.documentElement.clientHeight ||
                     document.body.clientHeight;
-                    console.log(scrollTop,scrollHeight)
                 if (scrollTop + clientHeight > scrollHeight - lowerThreshold) {
                     setState(true);
                 } else {

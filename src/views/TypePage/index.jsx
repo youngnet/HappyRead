@@ -15,6 +15,7 @@ export default function TypePage({ history, location, query }) {
     const reachBottom = useWindowScroll()
 
     useEffect(() => {
+        setBookList([])
         async function fetchData() {
             let res = await getTypeDetail(query.l)
             setData(res.data);
@@ -42,7 +43,7 @@ export default function TypePage({ history, location, query }) {
         async function getBookList() {
             let res = await getTypeBookList(`${link}_${page + 1}.html`);
             if (res.cd === 0) {
-                setBookList([...bookList, ...res.data]);
+                setBookList(bookList => [...bookList, ...res.data]);
             }
             loading = false;
         }
