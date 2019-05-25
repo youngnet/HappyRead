@@ -2,6 +2,8 @@
 
 > 该项目主要是针对react最新版本推出的reacthook进行实践，同时针对使用node作为服务端项目的构建，以及数据库的使用项目部署等 ( nginx, mysql, pm2 等简单的运用)
 
+> 项目地址 ： http://120.79.2.239
+
 - 命令
     - npm run start 
     - npm run build 
