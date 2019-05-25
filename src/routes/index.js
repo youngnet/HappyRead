@@ -1,56 +1,65 @@
-import React from "react";
-import {
-    HashRouter as Router,
-    Route,
-    Switch,
-    Redirect
-} from "react-router-dom";
+import React, { useState, useEffect, useReducer } from "react";
+import { getUserInfo } from "../api/auth";
+import * as TYPES from "../store/constants";
+import reducer from "../store/user";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 import routerList from "./router";
 import NavList from "../components/NavList";
 import ScrollToTop from "../components/ScrollToTop";
 import { getQuery } from "../utils/utils";
 import history from "./history";
+export const myContext = React.createContext(null);
 
 export default function MyRoute() {
-    // const [data, setData] = useState(undefined);
-    // useEffect(() => {
-    //     console.log(data);
-    //     setData(1);
-    // }, [data]);
+    const [user, dispatch] = useReducer(reducer,{});
+
+    useEffect(() => {
+        async function fetchUser() {
+            let res = await getUserInfo();
+            if (res.cd == 0) {
+                dispatch({ type: TYPES.ADD_USER_INFO, user: res.data });
+            }
+        }
+        fetchUser();
+        return () => {};
+    }, []);
+
     return (
         <Router history={history}>
-            <ScrollToTop>
-                <NavList />
-                <Switch>
-                    {routerList.map((RouterInfo, index) => {
-                        return (
-                            <Route
-                                exact
-                                key={index}
-                                path={RouterInfo.path}
-                                component={props => (
-                                    <RouterInfo.Component
-                                        {...props}
-                                        query={getQuery(props.location.search)}
-                                    />
-                                )}
-                            />
-                        );
-                    })}
-                    {/* <Route
-                        exact
-                        path='/home'
-                        component={props => (
-                            <Home
-                                {...props}
-                                query={getQuery(props.location.search)}
-                            />
-                        )}
-                    /> */}
-                    {/* <Route exact path='/home/:link' component={Home} /> */}
-                    <Redirect to='/home' />
-                </Switch>
-            </ScrollToTop>
+            <myContext.Provider value={{ user, dispatch }}>
+                <ScrollToTop>
+                    <NavList />
+                    <Switch>
+                        {routerList.map((RouterInfo, index) => {
+                            return (
+                                <Route
+                                    exact
+                                    key={index}
+                                    path={RouterInfo.path}
+                                    component={props => {
+                                        if (
+                                            RouterInfo.path === "/login" &&
+                                            user.id
+                                        ) {
+                                            props.history.replace("/home");
+                                        }
+                                        return (
+                                            <RouterInfo.Component
+                                                {...props}
+                                                query={getQuery(
+                                                    props.location.search
+                                                )}
+                                                // userInfo={user}
+                                            />
+                                        );
+                                    }}
+                                />
+                            );
+                        })}
+                        <Redirect to='/home' />
+                    </Switch>
+                </ScrollToTop>
+            </myContext.Provider>
         </Router>
     );
 }

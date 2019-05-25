@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
+import { myContext } from '../../routes'
+import * as TYPES from '../../store/constants'
 import md5 from 'md5'
 import { login } from '../../api/auth'
 
 export default function Mine() {
+    const { dispatch } = useContext(myContext)
 
     const [phone, setPhone] = useState('')
     const [pw, setPw] = useState('')
 
     async function submit() {
-        let res = await login(phone, md5(pw))
-        console.log("TCL: submit -> res", res)
+        let res = await login(phone, md5(pw));
+        if (res.cd === 0) {
+            dispatch({ type: TYPES.ADD_USER_INFO, user: res.data })
+        }
     }
 
     return (

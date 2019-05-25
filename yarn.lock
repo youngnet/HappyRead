@@ -9931,9 +9931,14 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@^3.0.1, uuid@^3.3.2:
+uuid@^3.0.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+
+uuid@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+  integrity sha1-G0r0lV6zB3xQHCOHL8ZROBFYcTE=
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
@@ -9957,7 +9962,7 @@ vconsole-webpack-plugin@^1.4.2:
   dependencies:
     vconsole "^3.1.0"
 
-vconsole@^3.1.0, vconsole@^3.3.0:
+vconsole@^3.1.0:
   version "3.3.0"
   resolved "https://registry.npm.taobao.org/vconsole/download/vconsole-3.3.0.tgz#42629c07fb3b6a72733d2bbc417ee3e84b2bc76e"
   integrity sha1-QmKcB/s7anJzPSu8QX7j6Esrx24=

@@ -6,6 +6,7 @@ axios.defaults.baseURL = config.apiConfig[process.env.NODE_ENV].baseURL;
 axios.interceptors.response.use(res => {
     if (res.data.cd === -1) {
         history.push("/login");
+        // dispatch here
     }
     return res.data;
 });

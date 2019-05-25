@@ -24,16 +24,12 @@ const promisePool = pool.promise();
 // app.use(new CSRF());
 
 app.use(async (ctx, next) => {
-    console.log(ctx.session);
+    // console.log(ctx.session);
     ctx.pool = promisePool;
     ctx.md5Key = "yeah";
     const startTime = new Date().getTime();
     await next();
-    console.log(
-        new Date().getTime() - startTime,
-        "-----处理时间------",
-        ctx.ip
-    );
+    console.log(`time->${new Date().getTime() - startTime}s --- ip->${ctx.ip}`);
 });
 
 app.use(async function(ctx, next) {
