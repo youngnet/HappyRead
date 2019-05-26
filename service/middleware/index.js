@@ -3,9 +3,8 @@ async function login_required(ctx, next) {
     if (!token) {
         ctx.body = { cd: -1, msg: "请先登录" };
     } else {
-        let [id] = Object.entries(ctx.session.token).find(
-            ([id, t]) => t == token
-        );
+        const tokens = ctx.session.token || {};
+        let [id] = Object.entries(tokens).find(([id, t]) => t == token) || [];
         if (id) {
             await next();
         } else {

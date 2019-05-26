@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { getTypeDetail, getTypeBookList } from '../../api/home'
 import BookItem from "@components/BookItem";
 import List from '../../components/List'
@@ -7,7 +7,7 @@ import useWindowScroll from '../../utils/useWindowScroll'
 
 let loading = false;
 
-export default function TypePage({ history, location, query }) {
+export default function TypePage({ history, query }) {
     const link = query.l.split('_')[0];
     const [page, setPage] = useState(0);
     const [data, setData] = useState({ hotList: [], totalPage: 1 });

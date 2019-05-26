@@ -38,7 +38,7 @@ const useWindowScroll = (lowerThreshold = 100) => {
             cancelAnimationFrame(frame.current);
             window.removeEventListener("scroll", handler);
         };
-    }, []);
+    }, [lowerThreshold]);
 
     return reachBottom;
 };

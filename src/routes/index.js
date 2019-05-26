@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { getUserInfo } from "../api/auth";
 import * as TYPES from "../store/constants";
 import reducer from "../store/user";
@@ -8,15 +8,21 @@ import NavList from "../components/NavList";
 import ScrollToTop from "../components/ScrollToTop";
 import { getQuery } from "../utils/utils";
 import history from "./history";
+import store from "../store/store";
 export const myContext = React.createContext(null);
 
 export default function MyRoute() {
-    const [user, dispatch] = useReducer(reducer,{});
+    const [user, dispatch] = useReducer(reducer, {});
+    if (!store.isReady) {
+        store.isReady = true;
+        store.dispatch = params => dispatch(params);
+        Object.freeze(store);
+    }
 
     useEffect(() => {
         async function fetchUser() {
             let res = await getUserInfo();
-            if (res.cd == 0) {
+            if (res.cd === 0) {
                 dispatch({ type: TYPES.ADD_USER_INFO, user: res.data });
             }
         }
