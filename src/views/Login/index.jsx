@@ -3,6 +3,7 @@ import { myContext } from '../../routes'
 import * as TYPES from '../../store/constants'
 import md5 from 'md5'
 import { login } from '../../api/auth'
+import './index.scss'
 
 export default function Mine() {
     const { dispatch } = useContext(myContext)
@@ -18,11 +19,20 @@ export default function Mine() {
     }
 
     return (
-        <div>
-            <input value={phone} maxLength={11} onChange={(e) => setPhone(e.target.value)} type="text" placeholder="手机号" />
-            <input value={pw} onChange={(e) => setPw(e.target.value)} type="password" placeholder="密码" />
-            <input type="text" placeholder="用户名" />
-            <button onClick={submit}>提交</button>
+        <div className="loginContainer">
+            <div className="user-form">
+                <div className="label">
+                    <span>手机号：</span>
+                    <input value={phone} maxLength={11} onChange={(e) => setPhone(e.target.value)} type="text" placeholder="请输入手机号" />
+                </div>
+                <div className="label">
+                    <span>密码：</span>
+                    <input value={pw} onChange={(e) => setPw(e.target.value)} type="password" placeholder="请输入密码" />
+                </div>
+
+            </div>
+            {/* <input type="text" placeholder="用户名" /> */}
+            <button className="sub-btn" onClick={submit}>登 录</button>
         </div>
     )
 }

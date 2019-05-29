@@ -1,0 +1,49 @@
+.loginContainer {
+    input,
+    button,
+    select,
+    textarea {
+        outline: none;
+        border: none;
+        border-radius: 0;
+        background-color: #fff;
+        &:-internal-autofill-selected {
+            background-color: #fff !important;
+        }
+    }
+    .sub-btn {
+        display: block;
+        margin: 30px auto;
+        width: 90%;
+        height: 36px;
+        line-height: 36px;
+        background-color: #fd4c4e;
+        border-radius: 4px;
+        font-size: 15px;
+        color: #fff;
+    }
+    .user-form {
+        padding-top: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .label {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            align-items: center;
+            span {
+                width: 80px;
+                flex-shrink: 0;
+                text-align: right;
+                padding-right: 10px;
+            }
+            border-bottom: 1px solid #e0e0e0;
+            input {
+                padding-left: 10px;
+                height: 100%;
+                flex: 1;
+            }
+        }
+    }
+}
